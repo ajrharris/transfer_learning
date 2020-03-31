@@ -3,7 +3,6 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 with open('ImageSets/Segmentation/train.txt', 'r') as fp:
     files_train = [line.rstrip() for line in fp.readlines()]
 
@@ -19,8 +18,9 @@ for i, fname in enumerate(files_all):
         print('File', i, fname)
 
     infname = os.path.join('SegmentationClassSubset/' + fname + '.npy')
-    outfname = os.path.join('JPEGSegmentation/' + fname + '.png')
+    outfname = os.path.join('PNGSegmentation/' + fname + '.png')
 
     with open(infname, 'rb') as f:
         image_array = np.load(f)
-        plt.imsave(outfname, image_array[:,:,0])
+        # save with grayscale so that we can load with one color channel
+        plt.imsave(outfname, image_array[:,:,0], vmin=-1, vmax=6, cmap='gray')
